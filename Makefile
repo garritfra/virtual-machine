@@ -1,2 +1,2 @@
 default: 
-	gcc -o vm.out vm.c
+	gcc -Wall *.c -g -o vm
