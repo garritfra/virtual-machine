@@ -21,6 +21,7 @@ struct VM {
     ip: u8,
     instructions: Vec<u8>,
     stack: Stack,
+    running: bool,
 }
 
 impl VM {
@@ -29,6 +30,7 @@ impl VM {
             ip: 0,
             instructions: vec![],
             stack: Stack::new(1024),
+            running: false,
         }
     }
 
@@ -41,8 +43,8 @@ impl VM {
     }
 
     fn run(&mut self) {
-        let running = true;
-        while running {
+        self.running = true;
+        while self.running {
             match self.instructions[(self.ip) as usize] {
                 0x00 => self.op_nop(),
                 0xff => self.op_halt(),
@@ -58,5 +60,6 @@ impl VM {
 
     fn op_halt(&mut self) {
         println!("HALT");
+        self.running = false;
     }
 }
