@@ -1,10 +1,8 @@
 fn main() {
-    let instructions = vec![0x00000001, 0x0000002];
+    let instructions = vec![0x00, 0x00, 0xff];
     let mut vm = VM::new();
     vm.load_instructions(instructions);
-    for instruction in vm.instructions {
-        println!("{:x}", instruction);
-    }
+    vm.run();
 }
 
 #[derive(Debug)]
@@ -36,5 +34,29 @@ impl VM {
 
     fn load_instructions(&mut self, instructions: Vec<u8>) {
         self.instructions = instructions;
+    }
+
+    fn fetch(&mut self) {
+        self.ip += 1;
+    }
+
+    fn run(&mut self) {
+        let running = true;
+        while running {
+            match self.instructions[(self.ip) as usize] {
+                0x00 => self.op_nop(),
+                0xff => self.op_halt(),
+                _ => self.op_halt(),
+            }
+            self.fetch();
+        }
+    }
+
+    fn op_nop(&mut self) {
+        println!("NO OP");
+    }
+
+    fn op_halt(&mut self) {
+        println!("HALT");
     }
 }
