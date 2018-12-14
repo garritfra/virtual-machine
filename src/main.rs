@@ -1,5 +1,5 @@
 fn main() {
-    let instructions = vec![0x01, 0x10, 0x01, 0x11, 0x02, 0x02, 0xff];
+    let instructions = vec![0x01, 0x10, 0x01, 0x11, 0x03, 0x02, 0xff];
     let mut vm = VM::new();
     vm.load_instructions(instructions);
     vm.run();
@@ -60,6 +60,7 @@ impl VM {
                 0x00 => self.op_nop(),
                 0x01 => self.op_push(),
                 0x02 => self.op_print(),
+                0x03 => self.op_add(),
                 0xff => self.op_halt(),
                 _ => self.op_halt(),
             }
@@ -84,7 +85,16 @@ impl VM {
     fn op_print(&mut self) {
         match self.stack.pop() {
             Some(v) => println!("{}", v),
-            None => println!("Error printing value"),
+            None => println!("No value to print!"),
+        }
+        self.ip += 1;
+    }
+
+    fn op_add(&mut self) {
+        if let Some(v1) = self.stack.pop() {
+            if let Some(v2) = self.stack.pop() {
+                self.stack.push(v1 + v2);
+            }
         }
         self.ip += 1;
     }
