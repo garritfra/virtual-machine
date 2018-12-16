@@ -1,7 +1,7 @@
 push 255
 nop
 push 255
-push 256
+push 255
 add
 add
 print
