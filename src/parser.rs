@@ -4,25 +4,29 @@ use std::io::BufReader;
 use std::str;
 
 /// Parses a filename and returns the instructions as bytecode
-pub fn parse_file(path: &str) -> Result<Vec<u8>, std::io::Error> {
+pub fn parse_file(path: &str) -> Vec<u8> {
   let mut instructions: Vec<u8> = Vec::new();
-  let input = File::open(path)?;
-  let buffered = BufReader::new(input);
+  match File::open(path) {
+    Ok(f) => {
+      let buffered = BufReader::new(f);
 
-  for line in buffered.lines() {
-    for word in line.unwrap().split_whitespace() {
-      match word.as_ref() {
-        "nop" => instructions.push(0x00),
-        "push" => instructions.push(0x01),
-        "print" => instructions.push(0x02),
-        "add" => instructions.push(0x03),
-        "halt" => instructions.push(0xff),
-        x => instructions.push(u8_from_utf8(x)),
+      for line in buffered.lines() {
+        for word in line.unwrap().split_whitespace() {
+          match word.as_ref() {
+            "nop" => instructions.push(0x00),
+            "push" => instructions.push(0x01),
+            "print" => instructions.push(0x02),
+            "add" => instructions.push(0x03),
+            "halt" => instructions.push(0xff),
+            x => instructions.push(u8_from_utf8(x)),
+          }
+        }
       }
     }
-  }
+    Err(e) => println!("File not found: {:?}", e),
+  };
 
-  Ok(instructions)
+  instructions
 }
 
 /// Helper-Function to convert a utf8 character to into `u8`
