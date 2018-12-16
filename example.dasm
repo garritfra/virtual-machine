@@ -1,7 +1,5 @@
-push
-8
-push
-5
+push 8
+push 5
 add
 print
 halt

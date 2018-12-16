@@ -9,13 +9,15 @@ pub fn parse_file(path: String) -> Result<Vec<u8>, std::io::Error> {
   let buffered = BufReader::new(input);
 
   for line in buffered.lines() {
-    match line.unwrap().as_ref() {
-      "nop" => instructions.push(0x00),
-      "push" => instructions.push(0x01),
-      "print" => instructions.push(0x02),
-      "add" => instructions.push(0x03),
-      "halt" => instructions.push(0xff),
-      x => instructions.push(u8_from_utf8(x)),
+    for word in line.unwrap().split_whitespace() {
+      match word.as_ref() {
+        "nop" => instructions.push(0x00),
+        "push" => instructions.push(0x01),
+        "print" => instructions.push(0x02),
+        "add" => instructions.push(0x03),
+        "halt" => instructions.push(0xff),
+        x => instructions.push(u8_from_utf8(x)),
+      }
     }
   }
 
