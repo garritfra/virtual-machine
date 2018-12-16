@@ -1,6 +1,6 @@
-mod parser;
-mod stack;
-mod vm;
+pub mod parser;
+pub mod stack;
+pub mod vm;
 
 use std::env;
 use vm::VM;
