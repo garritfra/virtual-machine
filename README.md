@@ -1,3 +1,9 @@
+## Usage
+
+```bash
+cargo run ./example.dasm
+```
+
 ## Op-Codes
 
 | Instruction | Bytes | Description                                        |
