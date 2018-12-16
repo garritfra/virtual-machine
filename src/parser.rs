@@ -3,6 +3,7 @@ use std::io::BufRead;
 use std::io::BufReader;
 use std::str;
 
+/// Parses a filename and returns the instructions as bytecode
 pub fn parse_file(path: &str) -> Result<Vec<u8>, std::io::Error> {
   let mut instructions: Vec<u8> = Vec::new();
   let input = File::open(path)?;
@@ -24,6 +25,8 @@ pub fn parse_file(path: &str) -> Result<Vec<u8>, std::io::Error> {
   Ok(instructions)
 }
 
+/// Helper-Function to convert a utf8 character to into `u8`
+/// Needed because `std::str::from_utf8(string.as_bytes())` returns the utf8 encoding of a character.
 fn u8_from_utf8(string: &str) -> u8 {
   std::str::from_utf8(string.as_bytes())
     .unwrap()
