@@ -1,5 +1,8 @@
 push 8
+nop
 push 5
+push 128
+add
 add
 print
 halt
