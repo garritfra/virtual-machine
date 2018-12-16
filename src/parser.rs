@@ -3,7 +3,7 @@ use std::io::BufRead;
 use std::io::BufReader;
 use std::str;
 
-pub fn parse_file(path: String) -> Result<Vec<u8>, std::io::Error> {
+pub fn parse_file(path: &str) -> Result<Vec<u8>, std::io::Error> {
   let mut instructions: Vec<u8> = Vec::new();
   let input = File::open(path)?;
   let buffered = BufReader::new(input);
